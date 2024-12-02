@@ -25,3 +25,8 @@ spring:
       uri: lb://adduser
       predicates:
         - Path=/adduser/**
+    - id: ms-creditsimulation
+      uri: lb://creditsimulation
+      predicates:
+        - Path=/creditsimulation/**
+  
