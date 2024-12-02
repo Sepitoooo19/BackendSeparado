@@ -22,6 +22,6 @@ spring:
             allowedHeaders: "*"
   routes:
     - id: ms-adduser
-      uri: lb://adduser-service
+      uri: lb://adduser
       predicates:
         - Path=/adduser/**
