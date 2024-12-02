@@ -4,9 +4,9 @@ import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
-import com.example.CreditSimulation.repositories.ClientRepository;
-import com.example.CreditSimulation.entities.ClientEntity;
-
+import com.example.CreditSimulation.clients.ClientsFeignClient;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.util.List;
 
 
@@ -14,33 +14,26 @@ import java.util.List;
 public class BankExecutiveService {
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientsFeignClient clientsFeignClient;
 
     public double getExpectedAmountOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        return client.getExpected_amount();
-
+        return clientsFeignClient.getExpectedAmountOfClientByRut(rut).getBody();
     }
 
     public double getInteresRateOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        return client.getInterest_rate();
+        return clientsFeignClient.getInteresRateOfClientByRut(rut).getBody();
     }
 
     public int getTimeLimitOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        return client.getTime_limit();
+        return clientsFeignClient.getTimeLimitOfClientByRut(rut).getBody();
     }
 
-    public int getMonthlyLoanOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        double interest_rate = client.getInterest_rate() / 12 / 100;
-        double expected_amount = client.getExpected_amount();
-        int time_limit_in_months = client.getTime_limit() * 12;
-        double monthly_fee = expected_amount * ((interest_rate*(Math.pow(1+interest_rate, time_limit_in_months)))/(Math.pow(1+interest_rate, time_limit_in_months)-1));
-        return (int) monthly_fee;
-
+    public Object getMonthlyLoanOfClientByRut(String rut) {
+        return clientsFeignClient.getMonthlyLoanOfClientByRut(rut).getBody();
     }
+
+
+
 
 
 
