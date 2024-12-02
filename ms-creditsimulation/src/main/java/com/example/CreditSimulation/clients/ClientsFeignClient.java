@@ -12,7 +12,6 @@ import java.util.List;
 @FeignClient(name = "ms-adduser", path = "/adduser")
 public interface ClientsFeignClient {
 
-
     @GetMapping("/{rut}/amount")
     ResponseEntity<Double> getExpectedAmountOfClientByRut(@PathVariable String rut);
 

@@ -12,7 +12,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/adduser")
-@CrossOrigin("*")
 public class ClientController {
 
     @Autowired
