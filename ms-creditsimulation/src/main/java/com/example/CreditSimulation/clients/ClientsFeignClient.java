@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 
-@FeignClient(name = "ms-adduser", path = "/adduser")
+@FeignClient(name = "ms-adduser", path= "/adduser")
 public interface ClientsFeignClient {
 
     @GetMapping("/{rut}/amount")
