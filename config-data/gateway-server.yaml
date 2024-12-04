@@ -37,3 +37,7 @@ spring:
       uri: lb://evaluatecredit
       predicates:
         - Path=/api/executives/**,/api/v1/client-bank-account/**,/api/v1/debt/**,/api/v1/employmentHistory/**
+    - id: ms-followrequest
+      uri: lb://followrequest
+      predicates:
+        - Path=/api/executives/**,/api/v1/credit_application/**

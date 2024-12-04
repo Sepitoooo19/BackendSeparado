@@ -83,6 +83,26 @@ public class CreditApplicationService {
         return creditApplicationRepository.save(creditApplication);
     }
 
+    public CreditApplicationEntity updateStatus(Long creditApplicationId, String status) {
+        // Validar parámetros
+        if (creditApplicationId == null || creditApplicationId <= 0) {
+            throw new IllegalArgumentException("Invalid credit application ID");
+        }
+        if (status == null || status.trim().isEmpty()) {
+            throw new IllegalArgumentException("Status cannot be null or empty");
+        }
+
+        // Buscar la solicitud de crédito
+        CreditApplicationEntity creditApplication = creditApplicationRepository.findById(creditApplicationId)
+                .orElseThrow(() -> new EntityNotFoundException("Solicitud de crédito no encontrada con el ID: " + creditApplicationId));
+
+        // Actualizar el estado
+        creditApplication.setStatus(status);
+
+        // Guardar los cambios
+        return creditApplicationRepository.save(creditApplication);
+    }
+
 
 
 

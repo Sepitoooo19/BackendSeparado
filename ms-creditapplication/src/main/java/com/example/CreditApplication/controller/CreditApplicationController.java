@@ -73,4 +73,20 @@ public class CreditApplicationController {
         }
     }
 
+    @PatchMapping("/update-status/{credit_application_id}")
+    public ResponseEntity<CreditApplicationEntity> updateStatus(
+            @PathVariable Long credit_application_id,
+            @RequestParam String status) {
+        try {
+            CreditApplicationEntity updatedApplication = creditApplicationService.updateStatus(credit_application_id, status);
+            return ResponseEntity.ok(updatedApplication);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+
+    }
 }

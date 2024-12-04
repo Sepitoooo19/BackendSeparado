@@ -1,4 +1,4 @@
-package com.example.FollowRequests.entities;
+package com.example.FollowRequests.model;
 
 
 import jakarta.persistence.*;
@@ -7,33 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 
-@Entity
-@Table(name = "CreditApplication")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreditApplicationEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long credit_application_id;
-
-    @Column(name = "client_id")
     private Long client_id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "credit_date")
     private String credit_date;
-
-    @Column(name = "status")
     private String status;
-
-    @Column(name = "amount")
     private int amount;
-
-
-
 
 }
