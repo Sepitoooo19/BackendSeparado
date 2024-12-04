@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.FollowRequests.clients.ClientsFeignClient;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 
@@ -42,31 +43,21 @@ public class BankExecutiveService {
     }
 
     public CreditApplicationEntity updateStatusOfCreditApplication(Long credit_application_id, String status) {
-        // Validaciones
-        if (credit_application_id == null || credit_application_id <= 0) {
-            throw new IllegalArgumentException("Invalid credit application ID");
-        }
-        if (status == null || status.trim().isEmpty()) {
-            throw new IllegalArgumentException("Status cannot be null or empty");
-        }
-
-        // Obtener la solicitud de crédito utilizando Feign
+        // Primero, obtenemos la solicitud de crédito por ID
         CreditApplicationEntity creditApplication = getCreditApplicationById(credit_application_id);
 
-        if (creditApplication == null) {
-            throw new EntityNotFoundException("Credit application not found with ID: " + credit_application_id);
-        }
+        // Creamos un mapa con el estado actualizado
+        Map<String, String> requestBody = Map.of("status", status);
 
-        // Actualizar el estado localmente
-        creditApplication.setStatus(status);
+        // Llamamos al Feign Client para actualizar el estado
+        ResponseEntity<CreditApplicationEntity> response = creditApplicatonFeignClient.updateStatus(credit_application_id, requestBody);
 
-        // Enviar la solicitud actualizada al microservicio responsable
-        ResponseEntity<CreditApplicationEntity> response = creditApplicatonFeignClient.updateStatus(credit_application_id, status);
-
+        // Verificamos la respuesta
         if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody(); // Retornar la solicitud actualizada desde el microservicio
+            return response.getBody();
         } else {
-            throw new RuntimeException("Failed to update credit application status. HTTP Status: " + response.getStatusCode());
+            // Manejo de errores si es necesario
+            throw new RuntimeException("Error al actualizar el estado de la solicitud de crédito");
         }
     }
 

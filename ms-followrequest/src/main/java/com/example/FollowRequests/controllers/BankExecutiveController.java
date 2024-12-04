@@ -56,26 +56,27 @@ public class BankExecutiveController {
         }
     }
 
-    @PutMapping("/{credit_application_id}/status")
-    public ResponseEntity<CreditApplicationEntity> updateCreditApplicationStatus(
+    @PutMapping("/update-status/{credit_application_id}")
+    public ResponseEntity<CreditApplicationEntity> updateStatus(
             @PathVariable Long credit_application_id,
-            @RequestBody Map<String, String> requestBody) {
-        // Verificar que el cuerpo de la solicitud contenga el campo "status"
-        String status = requestBody.get("status");
-        if (status == null || status.trim().isEmpty()) {
-            return ResponseEntity.badRequest().body(null);
-        }
+            @RequestParam String status) {
 
-        // Llamar al servicio para actualizar el estado
         try {
-            CreditApplicationEntity updatedCreditApplication = bankExecutiveService.updateStatusOfCreditApplication(credit_application_id, status);
-            return ResponseEntity.ok(updatedCreditApplication);
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            // Llamamos al servicio para actualizar el estado de la solicitud
+            CreditApplicationEntity updatedApplication = bankExecutiveService.updateStatusOfCreditApplication(credit_application_id, status);
+
+            // Si todo va bien, devolvemos la respuesta con el objeto actualizado
+            return ResponseEntity.ok(updatedApplication);
+        } catch (RuntimeException e) {
+            // Si ocurre un error, devolvemos un Internal Server Error
+            return ResponseEntity.status(500).body(null);
+        } catch (Exception e) {
+            // Manejo de excepciones generales, por si hay algún otro tipo de error
+            return ResponseEntity.status(400).body(null);
         }
     }
+
+
 
 
 

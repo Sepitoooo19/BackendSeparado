@@ -41,3 +41,8 @@ spring:
       uri: lb://followrequest
       predicates:
         - Path=/api/executives/**,/api/v1/credit_application/**
+    - id: ms-totalcost
+      uri: lb://totalcost
+      predicates:
+        - Path=/api/executives/**
+      

@@ -73,11 +73,18 @@ public class CreditApplicationController {
         }
     }
 
-    @PatchMapping("/update-status/{credit_application_id}")
+    @PutMapping("/update-status/{credit_application_id}")
     public ResponseEntity<CreditApplicationEntity> updateStatus(
             @PathVariable Long credit_application_id,
-            @RequestParam String status) {
+            @RequestBody Map<String, String> requestBody) {
         try {
+            // Verificar que el cuerpo de la solicitud contenga el campo "status"
+            String status = requestBody.get("status");
+            if (status == null || status.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
+
+            // Llamar al servicio para actualizar el estado
             CreditApplicationEntity updatedApplication = creditApplicationService.updateStatus(credit_application_id, status);
             return ResponseEntity.ok(updatedApplication);
         } catch (EntityNotFoundException e) {
@@ -87,6 +94,6 @@ public class CreditApplicationController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
-
     }
+
 }

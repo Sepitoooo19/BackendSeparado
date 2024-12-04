@@ -1,16 +1,17 @@
 package com.example.TotalCost.controllers;
 
-import com.example.TotalCost.entities.*;
+import com.example.TotalCost.model.ClientEntity;
+
 import com.example.TotalCost.services.BankExecutiveService;
-import com.example.TotalCost.services.ClientService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.TotalCost.clients.ClientsFeignClient;
+
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/executives")
@@ -21,18 +22,12 @@ public class BankExecutiveController {
     private BankExecutiveService bankExecutiveService;
 
     @Autowired
-    private ClientService clientService;
+    private ClientsFeignClient clientsFeignClient;
 
-
-
-    @GetMapping
-    public List<ClientEntity> getAllClients() {
-        return clientService.findAll();
-    }
 
     @GetMapping("/{rut}")
     public ResponseEntity<ClientEntity> getClientByRut(@PathVariable String rut) {
-        ClientEntity client = clientService.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         if (client == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

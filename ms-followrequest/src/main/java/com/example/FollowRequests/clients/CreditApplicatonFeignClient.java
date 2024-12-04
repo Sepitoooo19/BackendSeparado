@@ -22,8 +22,12 @@ public interface CreditApplicatonFeignClient {
     @GetMapping("/credit_application_id/{credit_application_id}")
     ResponseEntity<CreditApplicationEntity> findByCreditApplicationId(@PathVariable Long credit_application_id);
 
-    @PatchMapping("/update-status/{credit_application_id}")
-    ResponseEntity<CreditApplicationEntity> updateStatus(@PathVariable Long credit_application_id, @RequestParam String status);
+    @PutMapping("/update-status/{credit_application_id}")
+    ResponseEntity<CreditApplicationEntity> updateStatus(
+            @PathVariable Long credit_application_id,
+            @RequestBody Map<String, String> requestBody);
+
+
 
 
 }
