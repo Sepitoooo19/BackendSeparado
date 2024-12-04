@@ -40,7 +40,7 @@ spring:
         - id: ms-followrequest
           uri: lb://ms-followrequest
           predicates:
-            - Path=/executives/follow-requests**,/credit-application/follow-request**
+            - Path=/executives/follow-requests/**,/credit-application/follow-request/**
         - id: ms-totalcost
           uri: lb://ms-totalcost
           predicates:
