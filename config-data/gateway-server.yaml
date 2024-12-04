@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8080
 eureka:
   instance:
     preferIpAddress: true
@@ -20,29 +20,29 @@ spring:
             allowedOrigins: '*'
             allowedMethods: "*"
             allowedHeaders: "*"
-  routes:
-    - id: ms-adduser
-      uri: lb://adduser
-      predicates:
-        - Path=/adduser/**
-    - id: ms-creditsimulation
-      uri: lb://creditsimulation
-      predicates:
-        - Path=/executives/**
-    - id: ms-creditapplication
-      uri: lb://creditapplication
-      predicates:
-        - Path=/api/executives/**,/api/v1/credit_application/**,/api/v1/document/**
-    - id: ms-evaluatecredit
-      uri: lb://evaluatecredit
-      predicates:
-        - Path=/api/executives/**,/api/v1/client-bank-account/**,/api/v1/debt/**,/api/v1/employmentHistory/**
-    - id: ms-followrequest
-      uri: lb://followrequest
-      predicates:
-        - Path=/api/executives/**,/api/v1/credit_application/**
-    - id: ms-totalcost
-      uri: lb://totalcost
-      predicates:
-        - Path=/api/executives/**
+      routes:
+        - id: ms-adduser
+          uri: lb://adduser
+          predicates:
+            - Path=/adduser/**
+        - id: ms-creditsimulation
+          uri: lb://creditsimulation
+          predicates:
+            - Path=/executives/**
+        - id: ms-creditapplication
+          uri: lb://creditapplication
+          predicates:
+            - Path=/api/executives/**,/api/v1/credit_application/**,/api/v1/document/**
+        - id: ms-evaluatecredit
+          uri: lb://evaluatecredit
+          predicates:
+            - Path=/api/executives/**,/api/v1/client-bank-account/**,/api/v1/debt/**,/api/v1/employmentHistory/**
+        - id: ms-followrequest
+          uri: lb://followrequest
+          predicates:
+            - Path=/api/executives/**,/api/v1/credit_application/**
+        - id: ms-totalcost
+          uri: lb://totalcost
+          predicates:
+            - Path=/api/executives/**,/api/v1/credit_application/**
       
