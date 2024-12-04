@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
-@FeignClient(name = "ms-adduser", path= "/adduser")
+@FeignClient(name = "ms-user", path= "/user")
 public interface ClientsFeignClient {
 
     @GetMapping("/{rut}")

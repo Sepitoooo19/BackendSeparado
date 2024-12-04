@@ -21,10 +21,10 @@ spring:
             allowedMethods: "*"
             allowedHeaders: "*"
       routes:
-        - id: ms-adduser
-          uri: lb://ms-adduser
+        - id: ms-user
+          uri: lb://ms-user
           predicates:
-            - Path=/adduser/**
+            - Path=/user/**
         - id: ms-creditsimulation
           uri: lb://ms-creditsimulation
           predicates:

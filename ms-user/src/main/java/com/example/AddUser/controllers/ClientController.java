@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("/adduser")
+@RequestMapping("/user")
 public class ClientController {
 
     @Autowired

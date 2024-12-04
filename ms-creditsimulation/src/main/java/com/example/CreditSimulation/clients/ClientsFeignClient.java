@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 
-@FeignClient(name = "ms-adduser", path= "/adduser")
+@FeignClient(name = "ms-user", path= "/user")
 public interface ClientsFeignClient {
 
     @GetMapping("/{rut}")
