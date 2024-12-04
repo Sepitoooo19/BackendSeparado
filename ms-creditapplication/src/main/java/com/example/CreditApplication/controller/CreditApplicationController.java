@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/credit-application")
+@RequestMapping("/credit-application/application")
 @CrossOrigin("*")
 public class CreditApplicationController {
 
