@@ -1,7 +1,5 @@
-package com.example.CreditApplication.controllers;
-import ch.qos.logback.core.net.server.Client;
-import com.example.CreditApplication.entities.ClientEntity;
-import com.example.CreditApplication.services.ClientService;
+package com.example.CreditApplication.controller;
+import com.example.CreditApplication.Model.ClientEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,9 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import com.example.CreditApplication.entities.DocumentEntity;
 import com.example.CreditApplication.services.DocumentService;
 import org.springframework.web.multipart.MultipartFile;
+import com.example.CreditApplication.Model.ClientEntity;
+import com.example.CreditApplication.clients.ClientsFeignClient;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class DocumentController {
     private DocumentService documentService;
 
     @Autowired
-    private ClientService clientService;
+    private ClientsFeignClient clientService;
 
     @PostMapping("/upload")
     public ResponseEntity<String> uploadDocument(
@@ -39,7 +38,7 @@ public class DocumentController {
         }
 
         // Buscar cliente por RUT
-        ClientEntity client = clientService.findByRut(rut);
+        ClientEntity client =  clientService.findByRut(rut).getBody();
         if (client == null) {
             return new ResponseEntity<>("Cliente no encontrado con el RUT proporcionado", HttpStatus.BAD_REQUEST);
         }
@@ -83,7 +82,7 @@ public class DocumentController {
     @GetMapping("/client/{rut}/documents")
     public ResponseEntity<List<DocumentEntity>> findDocumentsByRut(@PathVariable String rut) {
         // Busca al cliente por RUT
-        ClientEntity client = clientService.findByRut(rut);
+        ClientEntity client =  clientService.findByRut(rut).getBody();
         if (client == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

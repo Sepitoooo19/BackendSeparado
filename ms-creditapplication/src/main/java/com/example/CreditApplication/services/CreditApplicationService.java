@@ -3,10 +3,10 @@ package com.example.CreditApplication.services;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.CreditApplication.clients.ClientsFeignClient;
 import com.example.CreditApplication.repositories.CreditApplicationRepository;
 import com.example.CreditApplication.entities.CreditApplicationEntity;
-import com.example.CreditApplication.entities.ClientEntity;
-import com.example.CreditApplication.repositories.ClientRepository;
+import com.example.CreditApplication.Model.ClientEntity;
 
 import java.time.LocalDate;
 
@@ -20,7 +20,7 @@ public class CreditApplicationService {
     private CreditApplicationRepository creditApplicationRepository;
 
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientsFeignClient clientsFeignClient;
 
 
     public List<CreditApplicationEntity> findAll() {
@@ -57,7 +57,7 @@ public class CreditApplicationService {
 
     public CreditApplicationEntity createCreditApplicationByRut(String rut, String loan_type) {
         // Buscar cliente por rut
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
 
         if (client == null) {
             throw new EntityNotFoundException("Client not found for RUT: " + rut);

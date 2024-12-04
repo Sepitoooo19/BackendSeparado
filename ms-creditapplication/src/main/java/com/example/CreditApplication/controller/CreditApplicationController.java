@@ -1,4 +1,4 @@
-package com.example.CreditApplication.controllers;
+package com.example.CreditApplication.controller;
 import ch.qos.logback.core.net.server.Client;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
