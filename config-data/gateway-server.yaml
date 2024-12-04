@@ -32,17 +32,17 @@ spring:
         - id: ms-creditapplication
           uri: lb://ms-creditapplication
           predicates:
-            - Path=/api/executives/**,/api/v1/credit_application/**,/api/v1/document/**
+            - Path=/executives/application/**,/credit-application/**,/document/application/**
         - id: ms-evaluatecredit
           uri: lb://ms-evaluatecredit
           predicates:
-            - Path=/api/executives/**,/api/v1/client-bank-account/**,/api/v1/debt/**,/api/v1/employmentHistory/**
+            - Path=/executives/evaluate**,/client-bank-account/evaluate/**,/debt-evaluate/**,/employmentHistory/evaluate/**
         - id: ms-followrequest
           uri: lb://ms-followrequest
           predicates:
-            - Path=/api/executives/**,/api/v1/credit_application/**
+            - Path=/executives/follow-requests**,/credit-application/follow-request**
         - id: ms-totalcost
           uri: lb://ms-totalcost
           predicates:
-            - Path=/api/executives/**,/api/v1/credit_application/**
+            - Path=/executives/total-cost/**
       

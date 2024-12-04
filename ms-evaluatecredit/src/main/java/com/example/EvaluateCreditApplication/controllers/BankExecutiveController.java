@@ -13,7 +13,7 @@ import com.example.EvaluateCreditApplication.clients.ClientsFeignClient;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/executives")
+@RequestMapping("/executives/evaluate")
 @CrossOrigin("*")
 public class BankExecutiveController {
 

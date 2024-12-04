@@ -14,7 +14,7 @@ import com.example.TotalCost.clients.ClientsFeignClient;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/executives")
+@RequestMapping("/executives/total-cost")
 @CrossOrigin("*")
 public class BankExecutiveController {
 

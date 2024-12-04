@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/executives")
+@RequestMapping("/executives/follow-requests")
 @CrossOrigin("*")
 public class BankExecutiveController {
 

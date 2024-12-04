@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/document")
+@RequestMapping("/document/application")
 @CrossOrigin("*")
 public class DocumentController {
 

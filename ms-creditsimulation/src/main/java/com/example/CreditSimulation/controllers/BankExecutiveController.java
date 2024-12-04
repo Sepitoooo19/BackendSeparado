@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/executives")
+@RequestMapping("/executives/simulation")
 public class BankExecutiveController {
 
     @Autowired
