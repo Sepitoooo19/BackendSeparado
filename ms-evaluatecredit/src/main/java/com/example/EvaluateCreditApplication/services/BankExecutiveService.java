@@ -1,21 +1,23 @@
 package com.example.EvaluateCreditApplication.services;
 
 import com.example.EvaluateCreditApplication.entities.*;
+import com.example.EvaluateCreditApplication.model.ClientEntity;
 import com.example.EvaluateCreditApplication.repositories.*;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.example.EvaluateCreditApplication.clients.ClientsFeignClient;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 
 @Service
 public class BankExecutiveService {
+
     @Autowired
-    private ClientRepository clientRepository;
+    private ClientsFeignClient clientsFeignClient;
 
     @Autowired
     private DebtRepository debtRepository;
@@ -31,28 +33,28 @@ public class BankExecutiveService {
 
 
     public double getExpectedAmountOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return client.getExpected_amount();
 
     }
 
     public double getInteresRateOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return client.getInterest_rate();
     }
 
     public int getTimeLimitOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return client.getTime_limit();
     }
 
     public double getMonthlySalaryOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return client.getMonthly_salary();
     }
 
     public int getMonthlyLoanOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         double interest_rate = client.getInterest_rate() / 12 / 100;
         double expected_amount = client.getExpected_amount();
         int time_limit_in_months = client.getTime_limit() * 12;
@@ -62,7 +64,7 @@ public class BankExecutiveService {
     }
 
     public double getFeeIncomeRatioByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
 
         // Verifica que el cliente no sea nulo
         if (client == null) {
@@ -82,7 +84,7 @@ public class BankExecutiveService {
 
 
     public double getDebtAmountByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
 
 
         if (client == null || client.getClient_id() == null) {
@@ -99,7 +101,7 @@ public class BankExecutiveService {
     }
 
     public List<DebtEntity> getDebtsByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         if (client == null) {
             throw new EntityNotFoundException("Cliente no encontrado para el RUT: " + rut);
         }
@@ -108,19 +110,19 @@ public class BankExecutiveService {
     }
 
     public List<EmploymentHistoryEntity> getEmploymentHistoryByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return (List<EmploymentHistoryEntity>) employmentHistoryRepository.findByClientId(client.getClient_id());
     }
 
 
     public List<ClientBankAccountEntity> getClientBankAccountsByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return clientBankAccountRepository.findByClientId(client.getClient_id());
     }
 
 
     public int getDepositInBankAccountByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
         int deposit = 0;
         for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
@@ -133,7 +135,7 @@ public class BankExecutiveService {
 
 
     public int getWithdrawalInBankAccountByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
         int withdrawal = 0;
         for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
@@ -145,7 +147,7 @@ public class BankExecutiveService {
     }
 
     public boolean getAgeAndVerifyMaximumAgeByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         int age = client.getAge();
         int loanTerm = client.getTime_limit();
         int finalAge = age + loanTerm; // Edad del cliente al finalizar el préstamo
@@ -179,7 +181,7 @@ public class BankExecutiveService {
     }
 
     public boolean isBankAccountConsistentByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
 
         // Variables para el cálculo del saldo y retiros
@@ -228,7 +230,7 @@ public class BankExecutiveService {
 
     public boolean containsBankAccountPeriodicDepositsByRut(String rut) {
         // Obtener el cliente por su RUT
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
 
         // Fecha actual y hace 12 meses
@@ -288,7 +290,7 @@ public class BankExecutiveService {
 
     public boolean checkRecentWithdrawalsByRut(String rut) {
         // Obtener el cliente por su rut
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
 
         // Fecha actual y hace 6 meses
@@ -322,12 +324,12 @@ public class BankExecutiveService {
 
 
     public String  getLoanTypeClientByRut(String rut){
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return client.getType_loan();
     }
 
     public int getPendingDebtsByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
         int pendingDebts = 0;
         for (DebtEntity debt : debts) {
@@ -339,7 +341,7 @@ public class BankExecutiveService {
     }
 
     public double getPendingDebtsMonthlySalaryByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
 
         // Verificar si el cliente existe
         if (client == null) {

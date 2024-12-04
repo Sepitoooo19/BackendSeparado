@@ -33,4 +33,7 @@ spring:
       uri: lb://creditapplication
       predicates:
         - Path=/api/executives/**,/api/v1/credit_application/**,/api/v1/document/**
-  
+    - id: ms-evaluatecredit
+      uri: lb://evaluatecredit
+      predicates:
+        - Path=/api/executives/**,/api/v1/client-bank-account/**,/api/v1/debt/**,/api/v1/employmentHistory/**
