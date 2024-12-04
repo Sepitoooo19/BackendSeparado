@@ -36,7 +36,7 @@ spring:
         - id: ms-evaluatecredit
           uri: lb://ms-evaluatecredit
           predicates:
-            - Path=/executives/evaluate**,/client-bank-account/evaluate/**,/debt-evaluate/**,/employmentHistory/evaluate/**
+            - Path=/executives/evaluate/**,/client-bank-account/evaluate/**,/debt-evaluate/**,/employmentHistory/evaluate/**
         - id: ms-followrequest
           uri: lb://ms-followrequest
           predicates:
