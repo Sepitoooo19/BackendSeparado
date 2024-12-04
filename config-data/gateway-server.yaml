@@ -28,7 +28,7 @@ spring:
         - id: ms-creditsimulation
           uri: lb://ms-creditsimulation
           predicates:
-            - Path=/executives/**
+            - Path=/executives/simulation/**
         - id: ms-creditapplication
           uri: lb://ms-creditapplication
           predicates:
