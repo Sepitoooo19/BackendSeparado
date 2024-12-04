@@ -58,12 +58,18 @@ public class BankExecutiveController {
         }
     }
 
-    @GetMapping("/client/{rut}/monthly-salary")
-    public ResponseEntity<Double> getMonthlySalaryOfClientByRut(@PathVariable String rut) {
+    @GetMapping("/client/{rut}/monthly-loan")
+    public ResponseEntity<Integer> getMonthlyLoanOfClientByRut(@PathVariable String rut) {
         try {
-            return ResponseEntity.ok(bankExecutiveService.getMonthlySalaryOfClientByRut(rut));
+            // Llama al servicio para calcular la cuota mensual
+            int monthlyLoan = bankExecutiveService.getMonthlyLoanOfClientByRut(rut);
+            return ResponseEntity.ok(monthlyLoan);
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            // Maneja el caso cuando no se encuentra el cliente
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            // Maneja otros errores inesperados
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
