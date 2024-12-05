@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@FeignClient(name = "ms-creditapplication", path= "/credit-application/application")
+@FeignClient(name = "ms-creditapplication", path= "/api/v1/credit_application")
 public interface CreditApplicatonFeignClient {
 
 
