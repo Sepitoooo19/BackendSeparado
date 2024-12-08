@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: followrequest-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/followrequest-db-data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: followrequest-db-pvc
+  labels:
+    app: postgres
+    tier: database
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: followrequest-db-deployment
+  labels:
+    app: followrequest-db-deployment
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: followrequest-db-deployment
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: followrequest-db-deployment
+        tier: database
+    spec:
+      containers:
+        - name: followrequest-db
+          image: postgres
+          imagPullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: followrequest-db-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: followrequest-db-storage
+          persistentVolumeClaim:
+            claimName: followrequest-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: followrequest-db-service
+  labels:
+    app: followrequest-db-service
+    tier: database
+spec:
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: followrequest-db-deployment
+    tier: database
+  type: LoadBalancer

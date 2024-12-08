@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-evaluatecredit-deployment
+  labels:
+    app: ms-evaluatecredit-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ms-evaluatecredit-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ms-evaluatecredit-deployment
+    spec:
+      containers:
+        - name: ms-evaluatecredit
+          image: benjasepulvedaflores/ms-evaluatecredit
+          ports:
+            - containerPort: 8004
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_EVALUATECREDIT
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_EVALUATECREDIT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_EVALUATECREDIT
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+
+

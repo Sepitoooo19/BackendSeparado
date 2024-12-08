@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: evaluatecredit-db-pv
+  labels:
+    type: local
+spec:
+  storageClassName: standard
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/data/evaluatecredit-db-data"
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: evaluatecredit-db-pvc
+  labels:
+    app: postgres
+    tier: database
+spec:
+  storageClassName: standard
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: evaluatecredit-db-deployment
+  labels:
+    app: evaluatecredit-db-deployment
+    tier: database
+spec:
+  selector:
+    matchLabels:
+      app: evaluatecredit-db-deployment
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: evaluatecredit-db-deployment
+        tier: database
+    spec:
+      containers:
+        - name: evaluatecredit-db
+          image: postgres
+          imagPullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USER
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: evaluatecredit-db-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: evaluatecredit-db-storage
+          persistentVolumeClaim:
+            claimName: evaluatecredit-db-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: evaluatecredit-db-service
+  labels:
+    app: evaluatecredit-db-service
+    tier: database
+spec:
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: evaluatecredit-db-deployment
+    tier: database
+  type: LoadBalancer

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-creditsimulation-deployment
+  labels:
+    app: ms-creditsimulation-deployment
+spec:
+  selector:
+    matchLabels:
+      app: ms-creditsimulation-deployment
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ms-creditsimulation-deployment
+    spec:
+      containers:
+        - name: ms-creditsimulation
+          image: benjasepulvedaflores/ms-creditsimulation
+          ports:
+            - containerPort: 8002
+          env:
+            - name: SERVER_PORT
+              value: "0"
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_HOST_CREDITSIMULATION
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_PORT_CREDITSIMULATION
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: postgres-config-map
+                  key: DB_NAME_CREDITSIMULATION
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_USER
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-secret
+                  key: DB_PASSWORD
+
+
