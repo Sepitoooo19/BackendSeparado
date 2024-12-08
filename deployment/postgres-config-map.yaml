@@ -14,9 +14,9 @@ data:
   DB_HOST_CREDITAPPLICATION: creditapplication-db-service
   DB_PORT_CREDITAPPLICATION: "5432"
   DB_NAME_CREDITAPPLICATION: creditapplication-db
-  DB_HOST_EVALUATECREDITAPPLICATION: evaluatecreditapplication-db-service
-  DB_PORT_EVALUATECREDITAPPLICATION: "5432"
-  DB_NAME_EVALUATECREDITAPPLICATION: evaluatecreditapplication-db
+  DB_HOST_EVALUATECREDIT: evaluatecreditapplication-db-service
+  DB_PORT_EVALUATECREDIT: "5432"
+  DB_NAME_EVALUATECREDIT: evaluatecreditapplication-db
   DB_HOST_FOLLOWREQUEST: followrequest-db-service
   DB_PORT_FOLLOWREQUEST: "5432"
   DB_NAME_FOLLOWREQUEST: followrequest-db
