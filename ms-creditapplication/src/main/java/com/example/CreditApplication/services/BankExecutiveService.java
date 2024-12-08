@@ -33,6 +33,17 @@ public class BankExecutiveService {
     public int getTimeLimitOfClientByRut(String rut) {
         ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
         return client.getTime_limit();
+
+    }
+
+    public int getMonthlyLoanOfClientByRut(String rut) {
+        ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
+        double interest_rate = client.getInterest_rate() / 12 / 100;
+        double expected_amount = client.getExpected_amount();
+        int time_limit_in_months = client.getTime_limit() * 12;
+        double monthly_fee = expected_amount * ((interest_rate*(Math.pow(1+interest_rate, time_limit_in_months)))/(Math.pow(1+interest_rate, time_limit_in_months)-1));
+        return (int) monthly_fee;
+
     }
 
 

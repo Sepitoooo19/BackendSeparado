@@ -25,7 +25,7 @@ const CreditApplicationList = () => {
 
     const fetchCreditApplications = (rut) => {
         bankExecutiveService
-            .getCreditApplicationsByRut(rut)
+            .getCreditApplicationsByRutForFollowRequest(rut)
             .then((response) => {
                 setCreditApplications(response.data);
             })

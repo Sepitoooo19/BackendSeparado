@@ -46,7 +46,7 @@ const CreditApplication = () => {
 
     const calculateMonthlyLoan = async (rut) => {
         try {
-            const response = await bankService.getMonthlyLoanOfClientByRut(rut);
+            const response = await bankService.getMonthlyLoanOfClientByRutForApplication(rut);
             return response.data;
         } catch (error) {
             console.error("Error al calcular el monto mensual del préstamo:", error);
@@ -67,10 +67,10 @@ const CreditApplication = () => {
             setAmount(monthlyLoan); // Actualizar el estado con el monto calculado
             console.log("Monto mensual del préstamo:", monthlyLoan);
             const [loanTypeResponse, timeLimitResponse, interestRateResponse, monthlyLoanResponse] = await Promise.all([
-                bankService.getLoanTypeByRut(rut),
-                bankService.getTimeLimitOfClientByRut(rut),
-                bankService.getInteresRateOfClientByRut(rut),
-                bankService.getMonthlyLoanOfClientByRut(rut), // Asegúrate de que este método devuelva el monto correcto
+                bankService.getLoanTypeByRutForEvaluation(rut),
+                bankService.getTimeLimitOfClientByRutForApplication(rut),
+                bankService.getInteresRateOfClientByRutForApplication(rut),
+                bankService.getMonthlyLoanOfClientByRutForApplication(rut), // Asegúrate de que este método devuelva el monto correcto
             ]);
     
             setLoanInfo({

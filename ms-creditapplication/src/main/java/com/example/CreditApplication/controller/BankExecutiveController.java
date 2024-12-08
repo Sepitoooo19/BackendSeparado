@@ -56,5 +56,14 @@ public class BankExecutiveController {
         }
     }
 
+    @GetMapping("/client/{rut}/monthly-loan")
+    public ResponseEntity<Integer> getMonthlyLoanOfClientByRut(@PathVariable String rut) {
+        try {
+            return ResponseEntity.ok(bankExecutiveService.getMonthlyLoanOfClientByRut(rut));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
 
 }

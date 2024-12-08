@@ -15,7 +15,7 @@ const EmploymentHistoryList = () => {
 
     useEffect(() => {
         bankExecutiveService
-            .getEmploymentHistoryByRut(rut)
+            .getEmploymentHistoryByRutForEvaluation(rut)
             .then((response) => {
                 setEmployments(response.data);
             })

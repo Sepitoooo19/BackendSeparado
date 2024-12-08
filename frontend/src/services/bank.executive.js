@@ -1,132 +1,223 @@
 import httpClient from '../http-common';
 
-const getDebtsByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/debts`);
+//METODOS PARA LA SOLICITUD DE CREDITO
+const getMonthlyLoanOfClientByRutForApplication = (rut) => {
+    return httpClient.get(`executives/application/client/${rut}/monthly-loan`);
 }
 
-const getEmploymentHistoryByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/employment-history`);
+const getExpectedAmountOfClientByRutForApplication = (rut) => {
+    return httpClient.get(`executives/application/client/${rut}/expected-amount`);
 }
 
-const getBankAccountByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/client-bank-account`);
+const getInteresRateOfClientByRutForApplication = (rut) => {
+    return httpClient.get(`executives/application/client/${rut}/interest-rate`);
 }
 
-const getDepositInBankAccountByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/deposit`);
+const getTimeLimitOfClientByRutForApplication = (rut) => {
+    return httpClient.get(`executives/application/client/${rut}/time-limit`);
 }
 
-const getWithdrawalInBankAccountByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/withdrawal`);
+
+
+//METODOS PARA OBTENER ESOS DATOS A PARTIR DE LA EVALUACION DEL CREDITO
+const getExpectedAmountOfClientByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/amount`);
 }
 
-const getExpectedAmountOfClientByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/amount`);
+const getInteresRateOfClientByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/interest`);
 }
 
-const getInteresRateOfClientByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/interest`);
+const getTimeLimitOfClientByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/time`);
 }
 
-const getTimeLimitOfClientByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/time`);
+const getMonthlyLoanOfClientByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/monthly-loan`);
 }
 
-const getMonthlyLoanOfClientByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/monthly-loan`);
+const getClientByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}`);
 }
 
-const getLoanTypeByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/loanType`);
+const getDebtsByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/debts`);
 }
 
-const getCreditApplicationsByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/credit-application`);
+const getEmploymentHistoryByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/employment-history`);
 }
 
-const getCreditApplicationById = (id) => {
-    return httpClient.get(`api/executives/credit-application/${id}`);
+const getBankAccountByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/client-bank-account`);
 }
 
-const getFeeIncomeRatioByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/fee-income`);
+const getDepositInBankAccountByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/deposit`);
 }
 
-const updateCreditApplicationStatus = (id, newStatus) => {
-    return httpClient.put(`api/executives/${id}/status`, { status: newStatus });
+const getWithdrawalInBankAccountByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/withdrawal`);
 }
 
-const getPendingDebtsByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/pending-debts`);
+
+
+const getFeeIncomeRatioByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/fee-income`);
 }
 
-const getPendingDebtsMonthlySalaryByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/pending-debts-salary-ratio`);
+const getPendingDebtsByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/pending-debts`);
 }
 
-const verifyClientAge = (rut) => {
-    return httpClient.get(`api/executives/${rut}/verify-age`);
+const getPendingDebtsMonthlySalaryByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/pending-debts-salary-ratio`);
 }
 
-const getClientByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}`);
+const verifyClientAgeForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/verify-age`);
 }
 
-const validateBankAccountConsistencyByRut = (rut) => {
-    return httpClient.get(`api/executives/${rut}/account-consistency`);
+
+const validateBankAccountConsistencyByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/account-consistency`);
 }
 
-const checkPeriodicDeposits = (rut) => {
-    return httpClient.get(`api/executives/clients/${rut}/periodic-deposits`);
+const checkPeriodicDepositsForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/clients/${rut}/periodic-deposits`);
 }
 
-const checkLargeWithdrawals = (rut) => {
-    return httpClient.get(`api/executives/check-large-withdrawals/${rut}`);
+const checkLargeWithdrawalsForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/check-large-withdrawals/${rut}`);
 }
 
-const insuranceCalculationByRut = (rut) => {
-    return httpClient.get(`api/executives/insurance/${rut}`);
+
+const getLoanTypeByRutForEvaluation = (rut) => {
+    return httpClient.get(`executives/evaluate/${rut}/loanType`);
 }
 
-const administrationCommissionByRut = (rut) => {
-    return httpClient.get(`api/executives/administration-commission/${rut}`);
+
+
+
+
+
+//METODOS PARA OBTENER LOS MISMOS DATOS PARA LA SIMULACIUON DE CREDITO
+
+
+const getExpectedAmountOfClientByRutForSimulation = (rut) => {
+    return httpClient.get(`executives/simulation/client/${rut}/expected-amount`);
 }
 
-const monthlyCostByRut = (rut) => {
-    return httpClient.get(`api/executives/monthly-cost/${rut}`);
+const getInteresRateOfClientByRutForSimulation = (rut) => {
+    return httpClient.get(`executives/simulation/client/${rut}/interest-rate`);
 }
 
-const totalCostOfLoanByRut = (rut) => {
-    return httpClient.get(`api/executives/total-cost/${rut}`);
+const getTimeLimitOfClientByRutForSimulation = (rut) => {
+    return httpClient.get(`executives/simulation/client/${rut}/time-limit`);
+}
+
+const getMonthlyLoanOfClientByRutForSimulation = (rut) => {
+    return httpClient.get(`executives/simulation/client/${rut}/monthly-loan`);
+}
+
+const getClientByRutForSimulation = (rut) => {
+    return httpClient.get(`executives/simulation/client/${rut}`);
+}
+
+/*---------------------------------------------------------*/ 
+
+
+//METODO PARA SEGUIMIENTO  DE LA SOLICITUD DE CREDITO
+const updateCreditApplicationStatusForFollowRequest = (id, newStatus) => {
+    return httpClient.put(`executives/follow-requests/update-status/${id}?status=${newStatus}`);
+}
+
+
+
+const getCreditApplicationsByRutForFollowRequest = (rut) => {
+    return httpClient.get(`executives/follow-requests/${rut}/credit-application`);
+}
+
+const getCreditApplicationByIdForFollowRequest = (id) => {
+    return httpClient.get(`executives/follow-requests/credit-application/${id}`);
+}
+
+
+//METODOS PARA CALCULAR LOS COSTOS TOTALES
+
+const insuranceCalculationByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/insurance/${rut}`);
+}
+
+const administrationCommissionByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/administration-commission/${rut}`);
+}
+
+const monthlyCostByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/monthly-cost/${rut}`);
+}
+
+const totalCostOfLoanByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/total-cost/${rut}`);
+}
+
+const getExpectedAmountOfClientByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/${rut}/amount`);
+}
+
+const getInteresRateOfClientByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/${rut}/interest`);
+}
+
+const getTimeLimitOfClientByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/${rut}/time`);
+}
+
+const getMonthlyLoanOfClientByRutForTotalCost = (rut) => {
+    return httpClient.get(`executives/total-cost/${rut}/monthly-loan`);
 }
 
 
 
 
 export default { 
-    getDebtsByRut, 
-    getEmploymentHistoryByRut, 
-    getBankAccountByRut, 
-    getDepositInBankAccountByRut,
-    getWithdrawalInBankAccountByRut, 
-    getExpectedAmountOfClientByRut, 
-    getInteresRateOfClientByRut, 
-    getTimeLimitOfClientByRut, 
-    getMonthlyLoanOfClientByRut,
-    getLoanTypeByRut,
-    getCreditApplicationsByRut,
-    getCreditApplicationById,
-    getFeeIncomeRatioByRut,
-    updateCreditApplicationStatus,
-    getPendingDebtsByRut,
-    getPendingDebtsMonthlySalaryByRut,
-    verifyClientAge,
-    getClientByRut,
-    validateBankAccountConsistencyByRut,
-    checkPeriodicDeposits,
-    checkLargeWithdrawals,
-    insuranceCalculationByRut,
-    administrationCommissionByRut,
-    monthlyCostByRut,
-    totalCostOfLoanByRut
+    getExpectedAmountOfClientByRutForEvaluation,
+    getInteresRateOfClientByRutForEvaluation,
+    getTimeLimitOfClientByRutForEvaluation,
+    getMonthlyLoanOfClientByRutForEvaluation,
+    getClientByRutForEvaluation,
+    getDebtsByRutForEvaluation,
+    getEmploymentHistoryByRutForEvaluation,
+    getBankAccountByRutForEvaluation,
+    getDepositInBankAccountByRutForEvaluation,
+    getWithdrawalInBankAccountByRutForEvaluation,
+    getLoanTypeByRutForEvaluation,
+    getCreditApplicationsByRutForFollowRequest,
+    getCreditApplicationByIdForFollowRequest,
+    getFeeIncomeRatioByRutForEvaluation,
+    getPendingDebtsByRutForEvaluation,
+    getPendingDebtsMonthlySalaryByRutForEvaluation,
+    verifyClientAgeForEvaluation,
+    validateBankAccountConsistencyByRutForEvaluation,
+    checkPeriodicDepositsForEvaluation,
+    checkLargeWithdrawalsForEvaluation,
+    getExpectedAmountOfClientByRutForSimulation,
+    getInteresRateOfClientByRutForSimulation,
+    getTimeLimitOfClientByRutForSimulation,
+    getMonthlyLoanOfClientByRutForSimulation,
+    getClientByRutForSimulation,
+    insuranceCalculationByRutForTotalCost,
+    administrationCommissionByRutForTotalCost,
+    monthlyCostByRutForTotalCost,
+    totalCostOfLoanByRutForTotalCost,
+    getExpectedAmountOfClientByRutForTotalCost,
+    getInteresRateOfClientByRutForTotalCost,
+    getTimeLimitOfClientByRutForTotalCost,
+    getMonthlyLoanOfClientByRutForTotalCost,
+    updateCreditApplicationStatusForFollowRequest,
+    getMonthlyLoanOfClientByRutForApplication,
+    getExpectedAmountOfClientByRutForApplication,
+    getInteresRateOfClientByRutForApplication,
+    getTimeLimitOfClientByRutForApplication
+    
 };

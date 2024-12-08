@@ -12,7 +12,6 @@ const CreditApplicationById = () => {
     const [pendingDebtsRatio, setPendingDebtsRatio] = useState(null);
     const [ageVerification, setAgeVerification] = useState(null);
     const [finalAge, setFinalAge] = useState(null); // Estado para almacenar la edad final
-    const [balanceVerification, setBalanceVerification] = useState(null);
     const [consistencyVerification, setConsistencyVerification] = useState(null);
     const [periodicDeposits, setPeriodicDeposits] = useState(null);
     const [jobSeniorityAmountRatio, setJobSeniorityAmountRatio] = useState(null);
@@ -40,7 +39,7 @@ const CreditApplicationById = () => {
         }
 
         try {
-            const response = await bankExecutiveService.getCreditApplicationById(creditApplicationId);
+            const response = await bankExecutiveService.getCreditApplicationByIdForEvaluation(creditApplicationId);
             setCreditApplication(response.data);
             setStatus("Solicitud de crédito obtenida con éxito.");
         } catch (error) {
@@ -51,15 +50,15 @@ const CreditApplicationById = () => {
         }
     };
 
-    const updateCreditApplicationStatus = async (newStatus) => {
+    const updateCreditApplicationStatusForFollowRequest = async (newStatus) => {
         if (!creditApplicationId) {
             setStatus("Por favor, proporciona el ID de la solicitud de crédito.");
             return;
         }
-
+    
         try {
             console.log("Updating status to", newStatus);
-            await bankExecutiveService.updateCreditApplicationStatus(creditApplicationId, newStatus);
+            await bankExecutiveService.updateCreditApplicationStatusForFollowRequest(creditApplicationId, newStatus);
             setStatus(`Estado actualizado a ${newStatus}.`);
             fetchCreditApplication();
         } catch (error) {
@@ -80,7 +79,7 @@ const CreditApplicationById = () => {
         }
 
         try {
-            const response = await bankExecutiveService.getFeeIncomeRatioByRut(rut);
+            const response = await bankExecutiveService.getFeeIncomeRatioByRutForEvaluation(rut);
             setFeeIncomeRatio(response.data);
             setStatus("Relación ingreso/préstamo calculada con éxito.");
         } catch (error) {
@@ -98,7 +97,7 @@ const CreditApplicationById = () => {
         }
 
         try {
-            const response = await bankExecutiveService.getPendingDebtsMonthlySalaryByRut(rut);
+            const response = await bankExecutiveService.getPendingDebtsMonthlySalaryByRutForEvaluation(rut);
             setPendingDebtsRatio(response.data);
             setStatus("Relación de deudas pendientes calculada con éxito.");
         } catch (error) {
@@ -116,11 +115,11 @@ const CreditApplicationById = () => {
         }
 
         try {
-            const response = await bankExecutiveService.verifyClientAge(rut);
+            const response = await bankExecutiveService.verifyClientAgeForEvaluation(rut);
             setAgeVerification(response.data);
             
             // Obtener el cliente para calcular la edad final
-            const clientResponse = await bankExecutiveService.getClientByRut(rut); 
+            const clientResponse = await bankExecutiveService.getClientByRutForEvaluation(rut); 
             const client = clientResponse.data;
             const age = client.age;
             const loanTerm = client.time_limit; 
@@ -137,31 +136,6 @@ const CreditApplicationById = () => {
         }
     };
 
-/*     const verifyBankAccountBalance = async () => {
-        if (!rut) {
-            setStatus("Por favor, proporciona el RUT del cliente.");
-            return;
-        }
-    
-        try {
-            const response = await bankExecutiveService.isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut);
-    
-            // Almacena el mensaje exacto del backend en `balanceVerification`
-            const message = response.data;
-            setBalanceVerification(message); // Guarda el mensaje devuelto
-            setStatus("Verificación de saldo de cuenta realizada con éxito.");
-            
-        } catch (error) {
-            console.error("Error al verificar el saldo de la cuenta:", error);
-            const errorMessage = error.response && error.response.data 
-                ? error.response.data 
-                : "No se pudo calcular el saldo. Intente nuevamente más tarde.";
-            setStatus(`Error al verificar el saldo de la cuenta: ${errorMessage}`);
-            setBalanceVerification(null);
-        }
-    }; 
-    
-    */
 
 
     const validateBankAccountConsistency = async () => {
@@ -171,7 +145,7 @@ const CreditApplicationById = () => {
         }
     
         try {
-            const response = await bankExecutiveService.validateBankAccountConsistencyByRut(rut);
+            const response = await bankExecutiveService.validateBankAccountConsistencyByRutForEvaluation(rut);
     
             
             const message = response.data;
@@ -194,7 +168,7 @@ const CreditApplicationById = () => {
         }
     
         try {
-            const response = await bankExecutiveService.checkPeriodicDeposits(rut);
+            const response = await bankExecutiveService.checkPeriodicDepositsForEvaluation(rut);
     
             
             const message = response.data;
@@ -211,30 +185,6 @@ const CreditApplicationById = () => {
         }
     };
 
-/*     const checkJobSeniorityAmountRatio = async () => {
-        if (!rut) {
-            setStatus("Por favor, proporciona el RUT del cliente.");
-            return;
-        }
-    
-        try {
-            const response = await bankExecutiveService.checkJobSeniorityAmountRatio(rut);
-    
-            // Almacena el mensaje completo del backend en `jobSeniorityAmountRatio`
-            const message = response.data;  // Obtiene el mensaje desde la respuesta
-            setJobSeniorityAmountRatio(message); // Guarda el mensaje devuelto
-            setStatus(message); // Muestra el mensaje del backend
-    
-        } catch (error) {
-            console.error("Error al verificar la relación de antigüedad en el trabajo y monto:", error);
-            const errorMessage = error.response && error.response.data
-                ? error.response.data
-                : "No se pudo verificar la información del cliente";
-            setStatus(`Error al verificar la relación de antigüedad en el trabajo y monto: ${errorMessage}`);
-            setJobSeniorityAmountRatio(null);
-        }
-    }; */
-
 
     const checkLargeWithdrawals = async () => {
         if (!rut) {
@@ -243,7 +193,7 @@ const CreditApplicationById = () => {
         }
     
         try {
-            const response = await bankExecutiveService.checkLargeWithdrawals(rut);
+            const response = await bankExecutiveService.checkLargeWithdrawalsForEvaluation(rut);
     
             // Guarda el mensaje del backend directamente en `largeWithdrawals`
             const message = response.data;
@@ -262,9 +212,9 @@ const CreditApplicationById = () => {
 
     const fetchLoanDetails = async () => {
         try {
-            const expectedAmountResponse = await bankExecutiveService.getExpectedAmountOfClientByRut(rut);
-            const timeLimitResponse = await bankExecutiveService.getTimeLimitOfClientByRut(rut);
-            const interestRateResponse = await bankExecutiveService.getInteresRateOfClientByRut(rut);
+            const expectedAmountResponse = await bankExecutiveService.getExpectedAmountOfClientByRutForEvaluation(rut);
+            const timeLimitResponse = await bankExecutiveService.getTimeLimitOfClientByRutForEvaluation(rut);
+            const interestRateResponse = await bankExecutiveService.getInteresRateOfClientByRutForEvaluation(rut);
 
             const loanDetailsData = {
                 expectedAmount: expectedAmountResponse.data,
@@ -280,7 +230,7 @@ const CreditApplicationById = () => {
 
     const calculateInsurance = async () => {
         try {
-            const response = await bankExecutiveService.insuranceCalculationByRut(rut);
+            const response = await bankExecutiveService.insuranceCalculationByRutForTotalCost(rut);
             setInsurance(response.data);
         } catch (error) {
             console.error("Error calculating insurance:", error);
@@ -289,7 +239,7 @@ const CreditApplicationById = () => {
 
     const calculateAdminCommission = async () => {
         try {
-            const response = await bankExecutiveService.administrationCommissionByRut(rut);
+            const response = await bankExecutiveService.administrationCommissionByRutForTotalCost(rut);
             setAdminCommission(response.data);
         } catch (error) {
             console.error("Error calculating administration commission:", error);
@@ -298,7 +248,7 @@ const CreditApplicationById = () => {
 
     const calculateMonthlyCost = async () => {
         try {
-            const response = await bankExecutiveService.monthlyCostByRut(rut);
+            const response = await bankExecutiveService.monthlyCostByRutForTotalCost(rut);
             setMonthlyCost(response.data);
         } catch (error) {
             console.error("Error calculating monthly cost:", error);
@@ -308,7 +258,7 @@ const CreditApplicationById = () => {
 
     const calculateTotalCost = async () => {
         try {
-            const response = await bankExecutiveService.totalCostOfLoanByRut(rut);
+            const response = await bankExecutiveService.totalCostOfLoanByRutForTotalCost(rut);
             setTotalCost(response.data);
         } catch (error) {
             console.error("Error calculating total cost of loan:", error);
@@ -383,7 +333,7 @@ const CreditApplicationById = () => {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("Pendiente")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Pendiente")}
                                     sx={{ mr: 2 }}
                                 >
                                     Marcar como PENDING
@@ -391,22 +341,22 @@ const CreditApplicationById = () => {
                                 <Button
                                     variant="contained"
                                     color="error"
-                                    onClick={() => updateCreditApplicationStatus("Rechazada")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Rechazada")}
                                 >
                                     Marcar como DECLINED
                                 </Button>
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("En Evaluación Inicial")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Evaluación Inicial")}
                                     sx={{ mr: 2 }}
                                 >
-                                    Marcar como " En Revisión Inicial"
+                                    Marcar como "En Revisión Inicial"
                                 </Button>
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("En Evaluación")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Evaluación")}
                                     sx={{ mr: 2 }}
                                 >
                                     Marcar como "En Evaluación"
@@ -414,7 +364,7 @@ const CreditApplicationById = () => {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("Pre-Aprobada")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Pre-Aprobada")}
                                     sx={{ mr: 2 }}
                                 >
                                     Marcar como "Pre-Aprobada"
@@ -422,15 +372,15 @@ const CreditApplicationById = () => {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus(" En Aprobación Final")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Aprobación Final")}
                                     sx={{ mr: 2 }}
                                 >
-                                    Marcar como " En Aprobación Final"
+                                    Marcar como "En Aprobación Final"
                                 </Button>
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("Aprobada")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Aprobada")}
                                     sx={{ mr: 2 }}
                                 >
                                     Marcar como "Aprobada"
@@ -438,7 +388,7 @@ const CreditApplicationById = () => {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("Cancelada por el Cliente")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Cancelada por el Cliente")}
                                     sx={{ mr: 2 }}
                                 >
                                     Marcar como "Cancelada por el Cliente"
@@ -446,7 +396,7 @@ const CreditApplicationById = () => {
                                 <Button
                                     variant="contained"
                                     color="secondary"
-                                    onClick={() => updateCreditApplicationStatus("En Desembolso")}
+                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Desembolso")}
                                     sx={{ mr: 2 }}
                                 >
                                     Marcar como "En Desembolso"
@@ -597,17 +547,7 @@ const CreditApplicationById = () => {
                                 margin="normal"
                             />
                         </Grid>
-                        {/* <Grid item xs={12}>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                                onClick={verifyBankAccountBalance}
-                                sx={{ mt: 2 }}
-                            >
-                                Verificar Saldo
-                            </Button>
-                        </Grid> */}
-
+                    
                         <Grid>
                             <Button
                                 variant="contained"
@@ -628,17 +568,7 @@ const CreditApplicationById = () => {
                                 Verificar Depósitos Periódicos
                             </Button>
                         </Grid>
-                        {/* <Grid>
-                            <Button
-
-                                variant="contained"
-                                color="primary"
-                                onClick={checkJobSeniorityAmountRatio}
-                                sx={{ mt: 2 }}
-                            >
-                                Verificar Relación de Antigüedad en el Trabajo y Monto
-                            </Button>
-                        </Grid> */}
+                    
                         <Grid>
                             <Button
 

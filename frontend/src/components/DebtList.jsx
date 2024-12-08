@@ -16,7 +16,7 @@ const DebtList = () => {
 
     useEffect(() => {
         bankExecutiveService
-            .getDebtsByRut(rut)
+            .getDebtsByRutForEvaluation(rut)
             .then((response) => {
                 setDebts(response.data);
             })

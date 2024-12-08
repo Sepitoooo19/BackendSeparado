@@ -19,7 +19,7 @@ const BankAccountList = () => {
 
     useEffect(() => {
         bankExecutiveService
-            .getBankAccountByRut(rut)
+            .getBankAccountByRutForEvaluation(rut)
             .then((response) => {
                 setBankAccount(response.data);
             })
@@ -27,7 +27,7 @@ const BankAccountList = () => {
                 console.log("Error al obtener la cuenta bancaria del cliente:", error);
             });
             bankExecutiveService
-            .getDepositInBankAccountByRut(rut)
+            .getDepositInBankAccountByRutForEvaluation(rut)
             .then((response) => {
                  
                 setTotalDeposit(response.data);
@@ -36,7 +36,7 @@ const BankAccountList = () => {
                 console.log("Error al obtener los depósitos del cliente:", error);
             });
             bankExecutiveService
-            .getWithdrawalInBankAccountByRut(rut)
+            .getWithdrawalInBankAccountByRutForEvaluation(rut)
             .then((response) => {
             
                 setTotalWithdrawal(response.data);

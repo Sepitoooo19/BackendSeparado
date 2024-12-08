@@ -16,15 +16,15 @@ const CreditSimulation = () => {
 
     const fetchClientData = () => {
         if (rut) {
-            bankExecutiveService.getInteresRateOfClientByRut(rut)
+            bankExecutiveService.getInteresRateOfClientByRutForSimulation(rut)
                 .then(response => setInterestRate(response.data))
                 .catch(error => console.error("Error al obtener el interest rate", error));
 
-            bankExecutiveService.getTimeLimitOfClientByRut(rut)
+            bankExecutiveService.getTimeLimitOfClientByRutForSimulation(rut)
                 .then(response => setTimeLimit(response.data))
                 .catch(error => console.error("Error al obtener el time limit", error));
 
-            bankExecutiveService.getExpectedAmountOfClientByRut(rut)
+            bankExecutiveService.getExpectedAmountOfClientByRutForSimulation(rut)
                 .then(response => setExpectedAmount(response.data))
                 .catch(error => console.error("Error al obtener el expected amount", error));
 
@@ -34,7 +34,7 @@ const CreditSimulation = () => {
 
     const calculateMonthlyLoan = () => {
         if (rut) {
-            bankExecutiveService.getMonthlyLoanOfClientByRut(rut)
+            bankExecutiveService.getMonthlyLoanOfClientByRutForSimulation(rut)
                 .then(response => setMonthlyLoan(response.data))
                 .catch(error => console.error("Error al calcular el monthly loan", error));
         }
