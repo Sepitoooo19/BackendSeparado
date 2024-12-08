@@ -14,12 +14,13 @@ data:
   DB_HOST_CREDITAPPLICATION: creditapplication-db-service
   DB_PORT_CREDITAPPLICATION: "5432"
   DB_NAME_CREDITAPPLICATION: creditapplication-db
-  DB_HOST_EVALUATECREDIT: evaluatecreditapplication-db-service
+  DB_HOST_EVALUATECREDIT: evaluatecredit-db-service
   DB_PORT_EVALUATECREDIT: "5432"
-  DB_NAME_EVALUATECREDIT: evaluatecreditapplication-db
+  DB_NAME_EVALUATECREDIT: evaluatecredit-db
   DB_HOST_FOLLOWREQUEST: followrequest-db-service
   DB_PORT_FOLLOWREQUEST: "5432"
   DB_NAME_FOLLOWREQUEST: followrequest-db
   DB_HOST_TOTALCOST: totalcost-db-service
   DB_PORT_TOTALCOST: "5432"
   DB_NAME_TOTALCOST: totalcost-db
+  
