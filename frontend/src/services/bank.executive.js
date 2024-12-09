@@ -132,8 +132,6 @@ const updateCreditApplicationStatusForFollowRequest = (id, newStatus) => {
     return httpClient.put(`executives/follow-requests/update-status/${id}?status=${newStatus}`);
 }
 
-
-
 const getCreditApplicationsByRutForFollowRequest = (rut) => {
     return httpClient.get(`executives/follow-requests/${rut}/credit-application`);
 }

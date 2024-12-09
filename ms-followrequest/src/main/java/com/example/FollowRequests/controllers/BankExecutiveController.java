@@ -37,13 +37,10 @@ public class BankExecutiveController {
 
     @GetMapping("/{rut}/credit-application")
     public ResponseEntity<List<CreditApplicationEntity>> getCreditApplicationByRut(@PathVariable String rut) {
-
         List<CreditApplicationEntity> creditApplication = bankExecutiveService.getCreditApplicationsByRut(rut);
         return new ResponseEntity<>(creditApplication, HttpStatus.OK);
 
     }
-
-
 
     @GetMapping("/credit-application/{id}")
     public ResponseEntity<CreditApplicationEntity> getCreditApplicationById(@PathVariable("id") Long creditApplicationId) {

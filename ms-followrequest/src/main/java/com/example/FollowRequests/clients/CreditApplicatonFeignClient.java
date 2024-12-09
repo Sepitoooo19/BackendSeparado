@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@FeignClient(name = "ms-creditapplication", path= "/api/v1/credit_application")
+@FeignClient(name = "ms-creditapplication", path= "/credit-application/application")
 public interface CreditApplicatonFeignClient {
 
 
@@ -26,8 +26,4 @@ public interface CreditApplicatonFeignClient {
     ResponseEntity<CreditApplicationEntity> updateStatus(
             @PathVariable Long credit_application_id,
             @RequestBody Map<String, String> requestBody);
-
-
-
-
 }
