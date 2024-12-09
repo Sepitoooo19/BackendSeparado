@@ -53,22 +53,26 @@ public class BankExecutiveController {
         }
     }
 
-    @PutMapping("/credit-application/update-status/{credit_application_id}")
-    public ResponseEntity<CreditApplicationEntity> updateStatus(
+    @PutMapping("/credit-application/{credit_application_id}/status")
+    public ResponseEntity<Void> updateCreditApplicationStatus(
             @PathVariable Long credit_application_id,
             @RequestBody Map<String, String> requestBody) {
         try {
+            // Validar que el cuerpo contenga "status"
             String status = requestBody.get("status");
             if (status == null || status.trim().isEmpty()) {
-                return ResponseEntity.badRequest().body(null);
+                return ResponseEntity.badRequest().build();
             }
 
-            CreditApplicationEntity updatedApplication = bankExecutiveService.updateStatusOfCreditApplication(credit_application_id, status);
-            return ResponseEntity.ok(updatedApplication);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            // Actualizar el estado utilizando el servicio
+            bankExecutiveService.updateCreditApplicationStatus(credit_application_id, status);
+
+            // Respuesta exitosa
+            return ResponseEntity.ok().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().build();
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            return ResponseEntity.internalServerError().build();
         }
     }
 

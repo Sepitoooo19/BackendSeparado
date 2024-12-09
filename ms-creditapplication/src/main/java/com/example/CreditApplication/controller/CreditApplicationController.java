@@ -87,11 +87,17 @@ public class CreditApplicationController {
             CreditApplicationEntity updatedApplication = creditApplicationService.updateStatus(credit_application_id, status);
             return ResponseEntity.ok(updatedApplication);
         } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();
+            // Manejar error de entidad no encontrada
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(null); // Opcional: Devuelve un cuerpo vacío o un mensaje JSON con detalles del error
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(null);
+            // Manejar errores de parámetros inválidos
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(null); // Opcional: Puedes incluir detalles del error en el cuerpo
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+            // Manejar cualquier otra excepción
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null); // Opcional: Loggear la excepción para debugging
         }
     }
 

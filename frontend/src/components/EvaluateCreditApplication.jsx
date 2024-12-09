@@ -50,17 +50,26 @@ const CreditApplicationById = () => {
         }
     };
 
-    const updateCreditApplicationStatusForFollowRequest = async (newStatus) => {
-        if (!creditApplicationId) {
+    const updateCreditApplicationStatusForFollowRequest = async (id, newStatus) => {
+        if (!id) {
             setStatus("Por favor, proporciona el ID de la solicitud de crédito.");
             return;
         }
     
         try {
             console.log("Updating status to", newStatus);
-            await bankExecutiveService.updateCreditApplicationStatusForFollowRequest(creditApplicationId, newStatus);
+            // Realizar la llamada a la API para actualizar el estado
+            await bankExecutiveService.updateCreditApplicationStatusForFollowRequest(id, newStatus);
+    
+            // Aquí actualizas el estado de la solicitud con el nuevo estado
+            // Si tienes un estado en el componente que refleja los detalles de la solicitud de crédito, como 'creditApplication', actualízalo
+            setCreditApplication(prevState => ({
+                ...prevState,
+                status: newStatus // Aquí se establece el nuevo estado de la solicitud
+            }));
+    
             setStatus(`Estado actualizado a ${newStatus}.`);
-            fetchCreditApplication();
+            fetchCreditApplication(); // Opcional, si deseas obtener los detalles actualizados
         } catch (error) {
             console.error("Error al actualizar el estado de la solicitud de crédito:", error);
             const errorMessage = error.response ? error.response.data : "Error desconocido";
@@ -328,7 +337,7 @@ const CreditApplicationById = () => {
                             <Typography variant="body1">Tipo de Préstamo: {creditApplication.name}</Typography>
                             <Typography variant="body1">Monto: {creditApplication.amount}</Typography>
                             <Typography variant="body1">Fecha de Crédito: {creditApplication.credit_date}</Typography>
-                            <Typography variant="body1">Estado: {creditApplication.status}</Typography>
+                            <Typography variant="body1">Estado: {creditApplication.status}</Typography> {/* Este es el estado actualizado */}
                             <Box sx={{ mt: 2 }}>
                                 <Button
                                     variant="contained"

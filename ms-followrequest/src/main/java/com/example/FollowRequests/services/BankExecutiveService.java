@@ -43,21 +43,23 @@ public class BankExecutiveService {
         }
     }
 
-    public CreditApplicationEntity updateStatusOfCreditApplication(Long credit_application_id, String status) {
-        // Primero, obtenemos la solicitud de crédito por ID
-        CreditApplicationEntity creditApplication = getCreditApplicationById(credit_application_id);
+    public void updateCreditApplicationStatus(Long creditApplicationId, String status) {
+        // Validar parámetros
+        if (creditApplicationId == null || creditApplicationId <= 0) {
+            throw new IllegalArgumentException("Invalid credit application ID");
+        }
+        if (status == null || status.trim().isEmpty()) {
+            throw new IllegalArgumentException("Status cannot be null or empty");
+        }
 
-        // Creamos un mapa con el estado actualizado
+        // Crear el request body
         Map<String, String> requestBody = Map.of("status", status);
 
-        // Llamamos al Feign Client para actualizar el estado
-        ResponseEntity<CreditApplicationEntity> response = creditApplicationFeignClient.updateStatus(credit_application_id, requestBody);
+        // Llamar al microservicio de origen mediante Feign Client
+        ResponseEntity<Void> response = creditApplicationFeignClient.updateStatus(creditApplicationId, requestBody);
 
-        // Verificamos la respuesta
-        if (response.getStatusCode().is2xxSuccessful()) {
-            return response.getBody();
-        } else {
-            // Manejo de errores si es necesario
+        // Verificar el resultado
+        if (!response.getStatusCode().is2xxSuccessful()) {
             throw new RuntimeException("Error al actualizar el estado de la solicitud de crédito");
         }
     }

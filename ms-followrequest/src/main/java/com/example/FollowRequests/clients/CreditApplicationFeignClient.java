@@ -23,7 +23,7 @@ public interface CreditApplicationFeignClient {
     ResponseEntity<CreditApplicationEntity> findByCreditApplicationId(@PathVariable Long credit_application_id);
 
     @PutMapping("/update-status/{credit_application_id}")
-    ResponseEntity<CreditApplicationEntity> updateStatus(
-            @PathVariable Long credit_application_id,
+    ResponseEntity<Void> updateStatus(
+            @PathVariable("credit_application_id") Long creditApplicationId,
             @RequestBody Map<String, String> requestBody);
 }

@@ -129,9 +129,8 @@ const getClientByRutForSimulation = (rut) => {
 
 //METODO PARA SEGUIMIENTO  DE LA SOLICITUD DE CREDITO
 const updateCreditApplicationStatusForFollowRequest = (id, newStatus) => {
-    return httpClient.put(`/executives/follow-requests/credit-application/update-status/${id}?status=${newStatus}`);
-}
-
+    return httpClient.put(`/executives/follow-requests/credit-application/update-status/${id}`, { status: newStatus });
+};
 const getCreditApplicationsByRutForFollowRequest = (rut) => {
     return httpClient.get(`executives/follow-requests/${rut}/credit-application`);
 }
