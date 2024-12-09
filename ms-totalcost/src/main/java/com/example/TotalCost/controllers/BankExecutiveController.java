@@ -15,7 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/executives/total-cost")
-@CrossOrigin("*")
 public class BankExecutiveController {
 
     @Autowired

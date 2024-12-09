@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employmentHistory/evaluate")
-@CrossOrigin("*")
 public class EmploymentHistoryController {
 
     @Autowired

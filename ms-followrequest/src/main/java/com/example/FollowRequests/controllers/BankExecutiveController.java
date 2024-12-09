@@ -14,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/executives/follow-requests")
-@CrossOrigin("*")
 public class BankExecutiveController {
 
     @Autowired

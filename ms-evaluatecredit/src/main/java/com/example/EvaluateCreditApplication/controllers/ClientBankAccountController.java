@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/client-bank-account/evaluate")
-@CrossOrigin("*")
 public class ClientBankAccountController {
 
     @Autowired

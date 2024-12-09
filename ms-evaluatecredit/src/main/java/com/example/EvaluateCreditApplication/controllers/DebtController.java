@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/debt-evaluate")
-@CrossOrigin("*")
+
 public class DebtController {
 
     @Autowired

@@ -13,7 +13,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/credit-application/application")
-@CrossOrigin("*")
 public class CreditApplicationController {
 
     @Autowired

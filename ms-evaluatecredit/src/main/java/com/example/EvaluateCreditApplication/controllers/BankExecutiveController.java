@@ -14,7 +14,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/executives/evaluate")
-@CrossOrigin("*")
 public class BankExecutiveController {
 
     @Autowired

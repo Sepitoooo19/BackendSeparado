@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/document/application")
-@CrossOrigin("*")
 public class DocumentController {
 
     @Autowired
