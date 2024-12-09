@@ -58,18 +58,17 @@ const CreditApplicationById = () => {
     
         try {
             console.log("Updating status to", newStatus);
-            // Realizar la llamada a la API para actualizar el estado
+    
+            // Llamar al servicio para actualizar el estado
             await bankExecutiveService.updateCreditApplicationStatusForFollowRequest(id, newStatus);
     
-            // Aquí actualizas el estado de la solicitud con el nuevo estado
-            // Si tienes un estado en el componente que refleja los detalles de la solicitud de crédito, como 'creditApplication', actualízalo
+            // Actualizar el estado local del componente
             setCreditApplication(prevState => ({
                 ...prevState,
-                status: newStatus // Aquí se establece el nuevo estado de la solicitud
+                status: newStatus // Se refleja el nuevo estado
             }));
     
             setStatus(`Estado actualizado a ${newStatus}.`);
-            fetchCreditApplication(); // Opcional, si deseas obtener los detalles actualizados
         } catch (error) {
             console.error("Error al actualizar el estado de la solicitud de crédito:", error);
             const errorMessage = error.response ? error.response.data : "Error desconocido";
@@ -337,79 +336,30 @@ const CreditApplicationById = () => {
                             <Typography variant="body1">Tipo de Préstamo: {creditApplication.name}</Typography>
                             <Typography variant="body1">Monto: {creditApplication.amount}</Typography>
                             <Typography variant="body1">Fecha de Crédito: {creditApplication.credit_date}</Typography>
-                            <Typography variant="body1">Estado: {creditApplication.status}</Typography> {/* Este es el estado actualizado */}
+                            <Typography variant="body1">Estado: {creditApplication.status}</Typography>
                             <Box sx={{ mt: 2 }}>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Pendiente")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como PENDING
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="error"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Rechazada")}
-                                >
-                                    Marcar como DECLINED
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Evaluación Inicial")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "En Revisión Inicial"
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Evaluación")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "En Evaluación"
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Pre-Aprobada")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "Pre-Aprobada"
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Aprobación Final")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "En Aprobación Final"
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Aprobada")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "Aprobada"
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "Cancelada por el Cliente")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "Cancelada por el Cliente"
-                                </Button>
-                                <Button
-                                    variant="contained"
-                                    color="secondary"
-                                    onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, "En Desembolso")}
-                                    sx={{ mr: 2 }}
-                                >
-                                    Marcar como "En Desembolso"
-                                </Button>
+                                {/* Definir los estados y sus propiedades */}
+                                {[
+                                    { label: "Pendiente", status: "Pendiente", color: "secondary" },
+                                    { label: "Rechazada", status: "Rechazada", color: "error" },
+                                    { label: "En Revisión Inicial", status: "En Evaluación Inicial", color: "secondary" },
+                                    { label: "En Evaluación", status: "En Evaluación", color: "secondary" },
+                                    { label: "Pre-Aprobada", status: "Pre-Aprobada", color: "secondary" },
+                                    { label: "En Aprobación Final", status: "En Aprobación Final", color: "secondary" },
+                                    { label: "Aprobada", status: "Aprobada", color: "secondary" },
+                                    { label: "Cancelada por el Cliente", status: "Cancelada por el Cliente", color: "secondary" },
+                                    { label: "En Desembolso", status: "En Desembolso", color: "secondary" },
+                                ].map(({ label, status, color }) => (
+                                    <Button
+                                        key={status}
+                                        variant="contained"
+                                        color={color}
+                                        onClick={() => updateCreditApplicationStatusForFollowRequest(creditApplication.credit_application_id, status)}
+                                        sx={{ mr: 2, mt: 1 }}
+                                    >
+                                        Marcar como "{label}"
+                                    </Button>
+                                ))}
                             </Box>
                         </Box>
                     )}
