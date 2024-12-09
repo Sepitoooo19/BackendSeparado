@@ -10,7 +10,7 @@ import java.util.Map;
 
 
 @FeignClient(name = "ms-creditapplication", path= "/credit-application/application")
-public interface CreditApplicatonFeignClient {
+public interface CreditApplicationFeignClient {
 
 
     @GetMapping("/client_id/{client_id}")

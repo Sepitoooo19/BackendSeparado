@@ -23,8 +23,6 @@ public class BankExecutiveController {
     private ClientsFeignClient clientsFeignClient;
 
 
-
-
     @GetMapping("/{rut}")
     public ResponseEntity<ClientEntity> getClientByRut(@PathVariable String rut) {
         ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
@@ -37,9 +35,12 @@ public class BankExecutiveController {
 
     @GetMapping("/{rut}/credit-application")
     public ResponseEntity<List<CreditApplicationEntity>> getCreditApplicationByRut(@PathVariable String rut) {
-        List<CreditApplicationEntity> creditApplication = bankExecutiveService.getCreditApplicationsByRut(rut);
-        return new ResponseEntity<>(creditApplication, HttpStatus.OK);
-
+        try {
+            List<CreditApplicationEntity> creditApplications = bankExecutiveService.getCreditApplicationsByRut(rut);
+            return new ResponseEntity<>(creditApplications, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/credit-application/{id}")
@@ -52,26 +53,24 @@ public class BankExecutiveController {
         }
     }
 
-    @PutMapping("/update-status/{credit_application_id}")
+    @PutMapping("/credit-application/update-status/{credit_application_id}")
     public ResponseEntity<CreditApplicationEntity> updateStatus(
             @PathVariable Long credit_application_id,
-            @RequestParam String status) {
-
+            @RequestBody Map<String, String> requestBody) {
         try {
-            // Llamamos al servicio para actualizar el estado de la solicitud
-            CreditApplicationEntity updatedApplication = bankExecutiveService.updateStatusOfCreditApplication(credit_application_id, status);
+            String status = requestBody.get("status");
+            if (status == null || status.trim().isEmpty()) {
+                return ResponseEntity.badRequest().body(null);
+            }
 
-            // Si todo va bien, devolvemos la respuesta con el objeto actualizado
+            CreditApplicationEntity updatedApplication = bankExecutiveService.updateStatusOfCreditApplication(credit_application_id, status);
             return ResponseEntity.ok(updatedApplication);
         } catch (RuntimeException e) {
-            // Si ocurre un error, devolvemos un Internal Server Error
-            return ResponseEntity.status(500).body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         } catch (Exception e) {
-            // Manejo de excepciones generales, por si hay algún otro tipo de error
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
-
 
 
 

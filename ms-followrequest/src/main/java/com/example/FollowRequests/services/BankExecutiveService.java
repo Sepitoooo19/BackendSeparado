@@ -1,8 +1,9 @@
 package com.example.FollowRequests.services;
 
+import com.example.FollowRequests.clients.CreditApplicationFeignClient;
 import com.example.FollowRequests.model.ClientEntity;
 import com.example.FollowRequests.model.CreditApplicationEntity;
-import com.example.FollowRequests.clients.CreditApplicatonFeignClient;
+
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,7 @@ public class BankExecutiveService {
 
 
     @Autowired
-    private CreditApplicatonFeignClient creditApplicatonFeignClient;
+    private CreditApplicationFeignClient creditApplicationFeignClient;
 
     @Autowired
     private ClientsFeignClient clientsFeignClient;
@@ -29,12 +30,12 @@ public class BankExecutiveService {
 
     public List<CreditApplicationEntity> getCreditApplicationsByRut(String rut) {
         ClientEntity client = clientsFeignClient.findByRut(rut).getBody();
-        return creditApplicatonFeignClient.findByClientId(client.getClient_id()).getBody();
+        return creditApplicationFeignClient.findByClientId(client.getClient_id()).getBody();
     }
 
 
     public CreditApplicationEntity getCreditApplicationById(Long credit_application_id) {
-        Optional<CreditApplicationEntity> creditApplication = Optional.ofNullable(creditApplicatonFeignClient.findByCreditApplicationId(credit_application_id).getBody());
+        Optional<CreditApplicationEntity> creditApplication = Optional.ofNullable(creditApplicationFeignClient.findByCreditApplicationId(credit_application_id).getBody());
         if (creditApplication.isPresent()) {
             return creditApplication.get();
         } else {
@@ -50,7 +51,7 @@ public class BankExecutiveService {
         Map<String, String> requestBody = Map.of("status", status);
 
         // Llamamos al Feign Client para actualizar el estado
-        ResponseEntity<CreditApplicationEntity> response = creditApplicatonFeignClient.updateStatus(credit_application_id, requestBody);
+        ResponseEntity<CreditApplicationEntity> response = creditApplicationFeignClient.updateStatus(credit_application_id, requestBody);
 
         // Verificamos la respuesta
         if (response.getStatusCode().is2xxSuccessful()) {

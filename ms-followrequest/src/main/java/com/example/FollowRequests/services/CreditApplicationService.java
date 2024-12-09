@@ -1,9 +1,9 @@
 package com.example.FollowRequests.services;
 
+import com.example.FollowRequests.clients.CreditApplicationFeignClient;
 import com.example.FollowRequests.model.CreditApplicationEntity;
 import com.example.FollowRequests.model.ClientEntity;
 import com.example.FollowRequests.clients.ClientsFeignClient;
-import com.example.FollowRequests.clients.CreditApplicatonFeignClient;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,7 +16,7 @@ import java.util.List;
 public class CreditApplicationService {
 
     @Autowired
-    private CreditApplicatonFeignClient creditApplicatonFeignClient;
+    private CreditApplicationFeignClient creditApplicationFeignClient;
 
     @Autowired
     private ClientsFeignClient clientsFeignClient;
@@ -28,11 +28,11 @@ public class CreditApplicationService {
             return Collections.emptyList(); // Manejar caso de cliente no válido
         }
 
-        return creditApplicatonFeignClient.findByClientId(client_id).getBody();
+        return creditApplicationFeignClient.findByClientId(client_id).getBody();
     }
 
     public CreditApplicationEntity findByCreditApplicationId(Long credit_application_id) {
-        return creditApplicatonFeignClient.findByCreditApplicationId(credit_application_id).getBody();
+        return creditApplicationFeignClient.findByCreditApplicationId(credit_application_id).getBody();
     }
 
 

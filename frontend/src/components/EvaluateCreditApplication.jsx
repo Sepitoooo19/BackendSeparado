@@ -39,7 +39,7 @@ const CreditApplicationById = () => {
         }
 
         try {
-            const response = await bankExecutiveService.getCreditApplicationByIdForEvaluation(creditApplicationId);
+            const response = await bankExecutiveService.getCreditApplicationByIdForFollowRequest(creditApplicationId);
             setCreditApplication(response.data);
             setStatus("Solicitud de crédito obtenida con éxito.");
         } catch (error) {
